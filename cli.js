@@ -2,6 +2,7 @@
 
 const { fetchPost } = require('./index');
 const linkifyjs = require('linkifyjs');
+const _ = require('lodash');
 
 function flatten (arr) {
   return arr.reduce(function (flat, toFlatten) {
@@ -9,56 +10,33 @@ function flatten (arr) {
   }, []);
 };
 
-function random (min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
-};
-
-function printWiener (data) {
-  let authorRregex = /(?<=title=\")[^\"]+/;
-  let commentRegex = /(?<=discussion)[^\"]+/;
-  let author = data.match(authorRregex);
-  let comment = data.match(commentRegex);
-  console.log('\nWinner @'+author);
-  console.log('https://www.lowendtalk.com/discussion'+comment);
+function printWiener (item) {
+  console.log('\nWinner @'+item.InsertName);
+  console.log('https://www.lowendtalk.com/discussion/comment/'+item.CommentID+'#Comment_'+item.CommentID);
 };
 
 async function wieners (url, repeat) {
-  const pattern = /<div class=\"Comment\">([\s\S]*?)<div class=\"Reactions\">/g;
   try {
-  	let html = await fetchPost(url);
-    let regex = /<a href=\"(.*)rel=\"next\">/;
-    let next = await html.match(regex);
-    let links = next ? await linkifyjs.find(next[0]) : [];
+  	var data = await fetchPost(url);
+    var comments = data.Comments;
+    if (comments) {
+      var i = 1;
+      while (comments.length < data.Discussion.CountComments) {
+        i = i+1;
+        let d = await fetchPost(data.Discussion.Url + '/p' + i, true);
+        comments = comments.concat(d.Comments);
+      };
+      comments = _.shuffle(_.uniqBy(comments, 'InsertName'));
 
-    if (links.length > 0) {
-      var data = [];
-      var result = links.reduce((unique, o) => {
-          if(!unique.some(obj => obj.label === o.label && obj.value === o.value)) {
-            unique.push(o);
-          }
-          return unique;
-      },[]);
-      for (var val of result) {
-        let htm = await fetchPost(val.href, true);
-        data.push(htm);
+      var num = repeat < 0 ? repeat : 3;
+      for(var i=0; i < num; i++) {
+         let randomChoice = Math.floor(Math.random() * comments.length);
+         printWiener(comments[randomChoice]);
       };
     } else {
-      var data = [html];
+      console.log('Unable to fetch the thread. Please try again later.');
+      return 1;
     };
-
-    var comments = [];
-    for (var val of data) {
-      let comment = await val.match(pattern);
-      comments.push(comment);
-    };
-
-    let merged = flatten(comments);
-    let x = repeat ? repeat : 3;
-    for (var i = 0; i < x; i++) {
-      let choose = random(0, merged.length);
-      printWiener(merged[choose]);
-    };
-
   } catch (err) {
     console.log('Error occurred!');
     console.log(err);

@@ -4,11 +4,11 @@ function fetchPost (url, next) {
   url = next ? url : url.substr(0, url.lastIndexOf('/'));
   console.log('Fetching ' + url);
   return new Promise((resolve, reject) => {
-    cloudscraper.get(url, function(error, response, body) {
+    cloudscraper.get(url + '.json', function(error, response, body) {
       if (error) {
         return reject(error);
       } else {
-        resolve(body);
+        resolve(JSON.parse(body));
       };
     });
 

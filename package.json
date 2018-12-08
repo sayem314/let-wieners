@@ -24,6 +24,7 @@
   "homepage": "https://github.com/sayem314/let-wieners#readme",
   "dependencies": {
     "cloudscraper": "^1.5.1",
-    "linkifyjs": "^2.1.7"
+    "linkifyjs": "^2.1.7",
+    "lodash": "^4.17.11"
   }
 }
