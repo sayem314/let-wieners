@@ -26,12 +26,16 @@ async function wieners (url, repeat) {
         let d = await fetchPost(data.Discussion.Url + '/p' + i, true);
         comments = comments.concat(d.Comments);
       };
-      comments = _.shuffle(_.uniqBy(comments, 'InsertName'));
+      console.log('\n Total comments: ' + comments.length);
+      comments = _.uniqBy(comments, 'InsertName');
+      console.log('Unique comments: ' + comments.length);
+      comments = comments.filter(x => x.InsertName !== data.Discussion.InsertName);
 
-      var num = repeat < 0 ? repeat : 3;
+      var num = repeat > 0 ? repeat : 3;
       for(var i=0; i < num; i++) {
-         let randomChoice = Math.floor(Math.random() * comments.length);
-         printWiener(comments[randomChoice]);
+        let shuffle = _.shuffle(comments);
+        let random = Math.floor(Math.random() * shuffle.length);
+        printWiener(shuffle[random]);
       };
     } else {
       console.log('Unable to fetch the thread. Please try again later.');
