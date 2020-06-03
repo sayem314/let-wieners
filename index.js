@@ -1,18 +1,18 @@
-const cloudscraper = require('cloudscraper');
+const hooman = require("hooman");
 
-function fetchPost (url, next) {
-  url = next ? url : url.substr(0, url.lastIndexOf('/'));
-  console.log('Fetching ' + url);
+function fetchPost(url, next) {
+  url = next ? url : url.substr(0, url.lastIndexOf("/"));
+  console.log("Fetching " + url);
   return new Promise((resolve, reject) => {
-    cloudscraper.get(url + '.json', function(error, response, body) {
-      if (error) {
+    hooman
+      .get(url + ".json", { responseType: "json" })
+      .then((response) => {
+        resolve(response.body);
+      })
+      .catch((error) => {
         return reject(error);
-      } else {
-        resolve(JSON.parse(body));
-      };
-    });
-
+      });
   });
-};
+}
 
 module.exports = { fetchPost };

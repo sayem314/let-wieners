@@ -1,13 +1,13 @@
 {
   "name": "let-wieners",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A fun project to choose wieners from lowendtalk",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
-    "node": "^8.0.0",
+    "node": ">=10.19.0"
   },
   "bin": {
     "wieners": "./cli.js"
@@ -17,7 +17,8 @@
     "url": "git+https://github.com/sayem314/let-wieners.git"
   },
   "keywords": [
-    "lowendtalk"
+    "lowendtalk",
+    "let"
   ],
   "author": "Sayem Chowdhury",
   "license": "ISC",
@@ -26,8 +27,9 @@
   },
   "homepage": "https://github.com/sayem314/let-wieners#readme",
   "dependencies": {
-    "cloudscraper": "^1.5.1",
-    "linkifyjs": "^2.1.7",
-    "lodash": "^4.17.11"
+    "got": "^11.2.0",
+    "hooman": "^1.2.5",
+    "linkifyjs": "^2.1.9",
+    "lodash": "^4.17.15"
   }
 }
