@@ -27,9 +27,8 @@
   },
   "homepage": "https://github.com/sayem314/let-wieners#readme",
   "dependencies": {
-    "got": "^11.2.0",
-    "hooman": "^1.2.5",
-    "linkifyjs": "^2.1.9",
-    "lodash": "^4.17.15"
+    "got": "^11.8.2",
+    "hooman": "^1.2.6",
+    "lodash": "^4.17.21"
   }
 }
