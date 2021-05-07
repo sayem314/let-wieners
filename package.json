@@ -1,13 +1,13 @@
 {
   "name": "let-wieners",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A fun project to choose wieners from lowendtalk",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
-    "node": ">=10.19.0"
+    "node": ">=12"
   },
   "bin": {
     "wieners": "./cli.js"
